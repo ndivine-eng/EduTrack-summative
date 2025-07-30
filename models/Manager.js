@@ -4,7 +4,7 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Manager extends Model {
     static associate(models) {
-      // Define relationships here if any
+    
     }
   }
   Manager.init({

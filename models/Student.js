@@ -19,12 +19,24 @@ module.exports = (sequelize, DataTypes) => {
     name: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    classId: {
+      type: DataTypes.UUID,
+      allowNull: false
+    },
+    cohortId: {
+      type: DataTypes.UUID,
+      allowNull: false
     }
   });
 
   Student.associate = (models) => {
-    Student.belongsTo(models.Class);
-    Student.belongsTo(models.Cohort);
+    // A Student belongs to one Class
+    Student.belongsTo(models.Class, { foreignKey: 'classId' });
+
+    // A Student belongs to one Cohort
+    Student.belongsTo(models.Cohort, { foreignKey: 'cohortId' });
+    // Student.belongsTo(models.Mode, { foreignKey: 'modeId' });
   };
 
   return Student;

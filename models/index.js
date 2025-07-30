@@ -21,25 +21,25 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-// Load base models first
+// ---------------------------
+// Load models
+// ---------------------------
 db.Student = require('./Student.js')(sequelize, DataTypes);
 db.Class = require('./Class.js')(sequelize, DataTypes);
 db.Cohort = require('./Cohort.js')(sequelize, DataTypes);
-db.Mode = require('./Mode.js')(sequelize, DataTypes);   // <- IMPORTANT
+db.Mode = require('./Mode.js')(sequelize, DataTypes);
 db.Module = require('./Module.js')(sequelize, DataTypes);
 db.Facilitator = require('./Facilitator.js')(sequelize, DataTypes);
 db.Manager = require('./Manager.js')(sequelize, DataTypes);
 db.FacilitatorModule = require('./FacilitatorModule.js')(sequelize, DataTypes);
-
-// Allocation must be loaded after Mode/Module/Class/Facilitator
 db.Allocation = require('./Allocation.js')(sequelize, DataTypes);
 db.ActivityTracker = require('./ActivityTracker.js')(sequelize, DataTypes);
 
 // ---------------------------
-// Define associations
+// Associations
 // ---------------------------
 
-// Many-to-Many Facilitator <-> Module (independent of allocations)
+// Many-to-Many: Facilitator <-> Module
 db.Facilitator.belongsToMany(db.Module, {
   through: db.FacilitatorModule,
   foreignKey: 'facilitatorId',
@@ -49,16 +49,23 @@ db.Module.belongsToMany(db.Facilitator, {
   foreignKey: 'moduleId',
 });
 
-// Students
-db.Student.belongsTo(db.Cohort);
-db.Cohort.hasMany(db.Student);
+// ---------------------------
+// Student / Class / Cohort
+// ---------------------------
 
-db.Class.belongsTo(db.Cohort);
-db.Cohort.hasMany(db.Class);
+// Student -> Cohort
+db.Student.belongsTo(db.Cohort, { foreignKey: 'cohortId' });
+db.Cohort.hasMany(db.Student, { foreignKey: 'cohortId' });
 
-// If students don't need a mode, you can remove this:
-db.Student.belongsTo(db.Mode);
-db.Mode.hasMany(db.Student);
+// Student -> Class
+db.Student.belongsTo(db.Class, { foreignKey: 'classId' });
+db.Class.hasMany(db.Student, { foreignKey: 'classId' });
+
+// Class -> Cohort
+db.Class.belongsTo(db.Cohort, { foreignKey: 'cohortId' });
+db.Cohort.hasMany(db.Class, { foreignKey: 'cohortId' });
+
+
 
 // ---------------------------
 // Allocation relationships
@@ -72,7 +79,6 @@ db.Module.hasMany(db.Allocation, { foreignKey: 'moduleId' });
 db.Class.hasMany(db.Allocation, { foreignKey: 'classId' });
 db.Facilitator.hasMany(db.Allocation, { foreignKey: 'facilitatorId' });
 db.Mode.hasMany(db.Allocation, { foreignKey: 'modeId' });
-
 
 // ---------------------------
 // ActivityTracker relationship
