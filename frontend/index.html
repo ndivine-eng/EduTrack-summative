@@ -2,157 +2,170 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Reflection Form</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Reflection</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: Arial, sans-serif;
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(to right, #f9f9f9, #e9f1f7);
       padding: 2rem;
+      color: #333;
+    }
+    .container {
       max-width: 700px;
       margin: auto;
-      background: #f4f4f9;
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
     }
-    label {
-      display: block;
-      margin-top: 1rem;
-      font-weight: bold;
+    h1 {
+      text-align: center;
+      color: #0077cc;
+      margin-bottom: 0.5rem;
     }
-    input, textarea, select {
-      width: 100%;
+    select {
+      float: right;
+      margin-top: -2.5rem;
       padding: 0.5rem;
-      margin-top: 0.25rem;
-      margin-bottom: 1rem;
-      border-radius: 5px;
+      border-radius: 8px;
       border: 1px solid #ccc;
     }
+    label {
+      font-weight: 600;
+      margin-top: 1rem;
+      display: block;
+    }
+    textarea {
+      width: 100%;
+      padding: 0.7rem;
+      margin-top: 0.5rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      resize: vertical;
+    }
     button {
-      padding: 0.75rem 1.5rem;
-      background-color: #007bff;
+      background-color: #0077cc;
       color: white;
       border: none;
-      border-radius: 5px;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      margin-top: 1.5rem;
       cursor: pointer;
-    }
-    button:hover {
-      background-color: #0056b3;
     }
     .message {
       margin-top: 1rem;
-      padding: 1rem;
-      background-color: #d4edda;
-      color: #155724;
-      border-radius: 5px;
-      display: none;
+      font-weight: bold;
+      color: green;
     }
   </style>
 </head>
 <body>
+  <div class="container">
+    <h1 id="title">Student Reflection</h1>
+    <select id="languageSwitcher">
+      <option value="en">English</option>
+      <option value="fr">Français</option>
+      <option value="sw">Kiswahili</option>
+      <option value="zh">中文</option>
+    </select>
 
-  <h1 id="title">Reflection Form</h1>
+    <p id="greeting">Welcome to my reflection page!</p>
 
-  <label for="language">Choose Language:</label>
-  <select id="language" onchange="switchLanguage()">
-    <option value="en">English</option>
-    <option value="fr">Français</option>
-    <option value="zh">中文</option>
-    <option value="sw">Kiswahili</option>
-  </select>
+    <form id="reflectionForm">
+      <label for="q1" id="q1-label">What did you enjoy most about the course?</label>
+      <textarea id="q1"></textarea>
 
-  <label for="email">Email:</label>
-  <input type="email" id="email" required />
+      <label for="q2" id="q2-label">What was the most challenging part?</label>
+      <textarea id="q2"></textarea>
 
-  <label for="name">Name:</label>
-  <input type="text" id="name" required />
+      <label for="q3" id="q3-label">What could be improved?</label>
+      <textarea id="q3"></textarea>
 
-  <label id="label-q1" for="q1">1. What did you learn today?</label>
-  <textarea id="q1" rows="4" required></textarea>
-
-  <label id="label-q2" for="q2">2. What challenged you the most?</label>
-  <textarea id="q2" rows="4" required></textarea>
-
-  <label id="label-q3" for="q3">3. What will you do differently tomorrow?</label>
-  <textarea id="q3" rows="4" required></textarea>
-
-  <button onclick="handleSubmit()">Submit</button>
-
-  <div id="message" class="message"></div>
+      <button type="submit">Submit</button>
+      <p class="message" id="submitMessage"></p>
+    </form>
+  </div>
 
   <script>
     const translations = {
       en: {
-        title: "Reflection Form",
-        q1: "1. What did you learn today?",
-        q2: "2. What challenged you the most?",
-        q3: "3. What will you do differently tomorrow?",
-        message: "Thank you for submitting your reflection!",
+        title: "Student Reflection",
+        greeting: "Welcome to my reflection page!",
+        q1: "What did you enjoy most about the course?",
+        q2: "What was the most challenging part?",
+        q3: "What could be improved?",
+        submitMessage: "Reflection submitted successfully!"
       },
       fr: {
-        title: "Formulaire de Réflexion",
-        q1: "1. Qu'avez-vous appris aujourd'hui ?",
-        q2: "2. Qu'est-ce qui vous a le plus mis au défi ?",
-        q3: "3. Que ferez-vous différemment demain ?",
-        message: "Merci d'avoir soumis votre réflexion !",
-      },
-      zh: {
-        title: "反思表",
-        q1: "1. 你今天学到了什么？",
-        q2: "2. 什么最让你感到挑战？",
-        q3: "3. 明天你会做些什么不同的事情？",
-        message: "感谢您提交您的反思！",
+        title: "Réflexion de l'étudiant",
+        greeting: "Bienvenue sur ma page de réflexion!",
+        q1: "Qu'avez-vous le plus apprécié dans le cours?",
+        q2: "Quelle a été la partie la plus difficile?",
+        q3: "Qu'est-ce qui pourrait être amélioré?",
+        submitMessage: "Réflexion soumise avec succès!"
       },
       sw: {
-        title: "Fomu ya Tafakari",
-        q1: "1. Umejifunza nini leo?",
-        q2: "2. Nini kilikukwamisha zaidi?",
-        q3: "3. Kesho utafanya nini tofauti?",
-        message: "Asante kwa kuwasilisha tafakari yako!",
+        title: "Tafakari ya Mwanafunzi",
+        greeting: "Karibu kwenye ukurasa wangu wa tafakari!",
+        q1: "Ulipenda nini zaidi kuhusu kozi hii?",
+        q2: "Kipi kilikuwa kigumu zaidi?",
+        q3: "Nini kinaweza kuboreshwa?",
+        submitMessage: "Tafakari imetumwa kwa mafanikio!"
+      },
+      zh: {
+        title: "学生反思",
+        greeting: "欢迎来到我的反思页面！",
+        q1: "你最喜欢这门课程的哪一部分？",
+        q2: "最具挑战性的部分是什么？",
+        q3: "有哪些可以改进的地方？",
+        submitMessage: "反思提交成功！"
       }
     };
 
-    let currentLang = "en";
     const elements = {
-      title: document.getElementById("title"),
-      q1: document.getElementById("label-q1"),
-      q2: document.getElementById("label-q2"),
-      q3: document.getElementById("label-q3"),
-      message: document.getElementById("message")
+      title: document.getElementById('title'),
+      greeting: document.getElementById('greeting'),
+      q1Label: document.getElementById('q1-label'),
+      q2Label: document.getElementById('q2-label'),
+      q3Label: document.getElementById('q3-label'),
+      message: document.getElementById('submitMessage'),
+      form: document.getElementById('reflectionForm'),
+      languageSwitcher: document.getElementById('languageSwitcher')
     };
 
-    function switchLanguage() {
-      currentLang = document.getElementById("language").value;
-      const t = translations[currentLang];
+    function updateLanguage(lang) {
+      const t = translations[lang];
       elements.title.textContent = t.title;
-      elements.q1.textContent = t.q1;
-      elements.q2.textContent = t.q2;
-      elements.q3.textContent = t.q3;
+      elements.greeting.textContent = t.greeting;
+      elements.q1Label.textContent = t.q1;
+      elements.q2Label.textContent = t.q2;
+      elements.q3Label.textContent = t.q3;
+      elements.message.textContent = '';
     }
 
-    function handleSubmit() {
-      const email = document.getElementById("email").value.trim();
-      const name = document.getElementById("name").value.trim();
-      const q1 = document.getElementById("q1").value.trim();
-      const q2 = document.getElementById("q2").value.trim();
-      const q3 = document.getElementById("q3").value.trim();
+    elements.languageSwitcher.addEventListener('change', (e) => {
+      const selectedLang = e.target.value;
+      updateLanguage(selectedLang);
+      localStorage.setItem('preferredLang', selectedLang);
+    });
 
-      if (!email || !name || !q1 || !q2 || !q3) {
-        alert("Please fill out all fields before submitting.");
-        return;
-      }
+    elements.form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const lang = elements.languageSwitcher.value;
+      elements.message.textContent = translations[lang].submitMessage;
+      elements.form.reset();
+    });
 
-      elements.message.textContent = translations[currentLang].message;
-      elements.message.style.display = "block";
-      elements.message.scrollIntoView({ behavior: "smooth" });
-
-      // Clear form
-      document.getElementById("email").value = "";
-      document.getElementById("name").value = "";
-      document.getElementById("q1").value = "";
-      document.getElementById("q2").value = "";
-      document.getElementById("q3").value = "";
-    }
-
-    // Load default language
-    switchLanguage();
+    // Initial load
+    const storedLang = localStorage.getItem('preferredLang') || 'en';
+    elements.languageSwitcher.value = storedLang;
+    updateLanguage(storedLang);
   </script>
 </body>
 </html>
