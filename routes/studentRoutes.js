@@ -1,8 +1,8 @@
-// const express = require('express');
-// const router = express.Router();
-// const studentController = require('../controllers/studentController');
+const express = require('express');
+const router = express.Router();
+const studentController = require('../controllers/studentController');
 
-// router.post('/', studentController.createStudent);
-// router.get('/', studentController.getAllStudents);
+router.post('/', studentController.createStudent);
+router.get('/', studentController.getAllStudents);
 
-// module.exports = router;
+module.exports = router;

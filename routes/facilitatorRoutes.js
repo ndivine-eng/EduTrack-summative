@@ -1,8 +1,22 @@
-// const express = require('express');
-// const router = express.Router();
-// const facilitatorController = require('../controllers/facilitatorController');
+// routes/facilitatorRoutes.js
 
-// router.post('/', facilitatorController.createFacilitator);
-// router.get('/', facilitatorController.getAllFacilitators);
+const express = require('express');
+const router = express.Router();
+const facilitatorController = require('../controllers/facilitatorController');
 
-// module.exports = router;
+// CREATE a new facilitator
+router.post('/', facilitatorController.createFacilitator);
+
+// READ all facilitators
+router.get('/', facilitatorController.getAllFacilitators);
+
+// READ one facilitator by ID
+router.get('/:id', facilitatorController.getFacilitatorById);
+
+// UPDATE a facilitator by ID
+router.put('/:id', facilitatorController.updateFacilitator);
+
+// DELETE a facilitator by ID
+router.delete('/:id', facilitatorController.deleteFacilitator);
+
+module.exports = router;

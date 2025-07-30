@@ -1,16 +1,19 @@
-// module.exports = (sequelize, DataTypes) => {
-//   const Cohort = sequelize.define("Cohort", {
-//     id: {
-//       type: DataTypes.STRING, // e.g., 'cohort1'
-//       primaryKey: true,
-//     },
-//     name: {
-//       type: DataTypes.STRING, // e.g., 'Cohort 1'
-//       allowNull: false,
-//     },
-//   });
-
-//   return Cohort;
-// };
-// // This model defines a Cohort with an id and name.
-// // The id is a string and serves as the primary key.
+'use strict';
+const { Model } = require('sequelize');
+module.exports = (sequelize, DataTypes) => {
+  class Cohort extends Model {
+    static associate(models) {
+      Cohort.hasMany(models.Student);
+    }
+  }
+  Cohort.init({
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false
+    }
+  }, {
+    sequelize,
+    modelName: 'Cohort',
+  });
+  return Cohort;
+};

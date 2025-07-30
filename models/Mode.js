@@ -1,21 +1,21 @@
-// // models/Mode.js
-// module.exports = (sequelize, DataTypes) => {
-//   const Mode = sequelize.define("Mode", {
-//     id: {
-//       type: DataTypes.STRING,
-//       primaryKey: true
-//       // Example: '001'
-//     },
-//     name: {
-//       type: DataTypes.STRING,
-//       allowNull: false
-//       // Example: 'Online', 'Hybrid', 'In Person'
-//     }
-//   });
+'use strict';
+const { Model } = require('sequelize');
 
-//   Mode.associate = (models) => {
-//     Mode.hasMany(models.Allocation);
-//   };
+module.exports = (sequelize, DataTypes) => {
+  class Mode extends Model {}
 
-//   return Mode;
-// };
+  Mode.init({
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true
+    },
+    name: DataTypes.STRING
+  }, {
+    sequelize,
+    modelName: 'Mode',
+    tableName: 'Modes'
+  });
+
+  return Mode;
+};
