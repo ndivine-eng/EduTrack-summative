@@ -1,147 +1,206 @@
+#  EduTrack Backend - Course Management Platform
 
-# EduTrack Backend
+##  Project Overview
+EduTrack is a backend system for managing a Course Management Platform for academic institutions.  
+It handles:
+- Facilitator-course allocations
+- Student progress tracking
+- Academic coordination
 
-This is the backend of the **EduTrack Course Management Application**, powered by **Node.js**, **Express**, and **MySQL**.
+The API is **RESTful**, uses **Sequelize ORM**, **MySQL**, and is integrated with **Swagger UI** for easy API exploration.
 
 ---
 
-## 📦 Project Setup
+##  Setup & Installation
 
-### 1. Clone the Repository
+### Prerequisites
+- Node.js (v16+ recommended)
+- MySQL Server
+- npm (Node Package Manager)
+
+### Installation
+
 ```bash
-git clone https://github.com/your-username/EduTrack-Backend.git
+git clone <your-repo-url>
 cd EduTrack-Backend
-```
-
-### 2. Install Dependencies
-```bash
 npm install
+cp .env.example .env  # Edit .env with your DB credentials
 ```
 
-### 3. Environment Configuration
+### Database Setup
 
-Create a `.env` file in the root directory and add your database config:
+```bash
+# If using migrations
+npx sequelize db:create
+npx sequelize db:migrate
 ```
+
+Or use `db.sequelize.sync({ force: true })` for auto table creation (dev only).
+
+---
+
+## Run the Server
+
+```bash
+npm run dev   # auto-restart using nodemon
+# or
+node server.js
+```
+
+Visit API root:  
+👉 [http://localhost:5000](http://localhost:5000)  
+
+Swagger Docs:  
+👉 [http://localhost:5000/api-docs](http://localhost:5000/api-docs)
+
+---
+
+## 📂 Project Structure
+
+```
+EDUTRACK-BACKEND/
+├── config/
+│   ├── config.js
+│   ├── db.js
+│   └── redis.js
+├── controllers/
+│   ├── allocationController.js
+│   ├── classController.js
+│   ├── cohortController.js
+│   ├── facilitatorController.js
+│   ├── facilitatorModuleController.js
+│   ├── managerController.js
+│   ├── modeController.js
+│   ├── moduleController.js
+│   └── studentController.js
+├── frontend/
+│   ├── index.html
+│   ├── script.js
+│   └── style.css
+├── middleware/
+│   └── errorHandler.js
+├── migrations/
+│   ├── 20250729184022-create-manager.js
+│   ├── 20250729191658-create-cohort.js
+│   ├── 20250729192544-create-student.js
+│   ├── 20250729192655-create-class.js
+│   ├── 20250729192727-create-mode.js
+│   ├── 20250729192753-create-allocation.js
+│   └── 20250729192806-create-activity-tracker.js
+├── models/
+│   ├── ActivityTracker.js
+│   ├── Allocation.js
+│   ├── Class.js
+│   ├── Cohort.js
+│   ├── Facilitator.js
+│   ├── FacilitatorModule.js
+│   ├── index.js
+│   ├── Manager.js
+│   ├── Mode.js
+│   ├── Module.js
+│   └── Student.js
+├── routes/
+│   ├── allocationRoutes.js
+│   ├── classRoutes.js
+│   ├── cohortRoutes.js
+│   ├── facilitatorModuleRoutes.js
+│   ├── facilitatorRoutes.js
+│   ├── managerRoutes.js
+│   ├── modeRoutes.js
+│   ├── moduleRoutes.js
+│   └── studentRoutes.js
+├── .env
+├── server.js
+├── swagger.js
+├── README.md
+└── test.js
+```
+
+## 🛠 Environment Configuration (.env)
+
+```
+PORT=5000
 DB_HOST=localhost
 DB_USER=root
 DB_PASSWORD=yourpassword
-DB_NAME=edutrack
+DB_NAME=edutrackdb
 DB_PORT=3306
-PORT=5000
 ```
 
 ---
 
-## 🔌 MySQL Database Setup
+##  Database Schema Overview
 
-### ✅ Tables Created
+### Key Tables
+- **Manager**
+- **Module (Course)**
+- **Cohort**
+- **Class**
+- **Student**
+- **Facilitator**
+- **Mode**
+- **Allocation**
+- **ActivityTracker**
 
-#### 1. Cohort Table
-```sql
-CREATE TABLE Cohort (
-  id VARCHAR(10) PRIMARY KEY,
-  name VARCHAR(100) NOT NULL
-);
-```
-
-#### Sample Data:
-```sql
-INSERT INTO Cohort (id, name) VALUES
-('001', 'Cohort1'),
-('002', 'Cohort2');
-```
-
-#### 2. Mode Table
-```sql
-CREATE TABLE Mode (
-  id VARCHAR(10) PRIMARY KEY,
-  name VARCHAR(100) NOT NULL
-);
-```
-
-#### Sample Data:
-```sql
-INSERT INTO Mode (id, name) VALUES
-('M1', 'In-person'),
-('M2', 'Online'),
-('M3', 'Hybrid');
-```
+For relationships:
+- `Allocation` links **Module + Class + Facilitator + Mode**
+- `ActivityTracker` links to **Allocation** for performance tracking.
 
 ---
 
-## ⚙️ Running the Backend Server
+## API Documentation (Swagger)
 
-### Start in development mode using nodemon:
-```bash
-npm run dev
-```
+**Swagger UI:**  
+[http://localhost:5000/api-docs](http://localhost:5000/api-docs)
 
-Expected output:
-```
-✅ Connected to MySQL
-🚀 Server running on http://localhost:5000
-```
+### Example Endpoints:
 
----
+#### Students
+- `GET /api/students`
+- `POST /api/students`
+- `GET /api/students/:id`
 
-## 🔍 Example Code to Check Tables in MySQL via Node.js
+#### Facilitators
+- `GET /api/facilitators`
+- `POST /api/facilitators`
 
-Here’s how to check what tables exist in your database from your `server.js` file or a helper script:
+#### Allocations
+- `GET /api/allocations`
+- `POST /api/allocations`
 
-```js
-const mysql = require('mysql2');
-require('dotenv').config();
-
-const connection = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-  port: process.env.DB_PORT
-});
-
-connection.connect(err => {
-  if (err) throw err;
-  console.log('✅ Connected to MySQL');
-
-  connection.query("SHOW TABLES", (err, results) => {
-    if (err) throw err;
-    console.log("📋 Tables in the database:");
-    results.forEach(row => console.log(Object.values(row)[0]));
-    connection.end();
-  });
-});
-```
+**Status Codes**:  
+- `200 OK`
+- `201 Created`
+- `400 Bad Request`
+- `404 Not Found`
+- `500 Internal Server Error`
 
 ---
 
-## 🧪 Testing the Database via MySQL CLI
-
-1. Open MySQL CLI:
-```bash
-mysql -u root -p
-```
-2. Run the following:
-```sql
-SHOW DATABASES;
-USE edutrack;
-SHOW TABLES;
-SELECT * FROM Cohort;
-SELECT * FROM Mode;
-```
+##  Authentication (Future Scope)
+- JWT-based role access is planned for future versions.
 
 ---
 
-## 🧼 Optional: Add MySQL to System PATH
+## Demo Workflow (For Presentation)
 
-If `mysql` is not recognized in terminal:
-- Add this to your system PATH:
-```
-C:\Program Files\MySQL\MySQL Server 8.0\bin
-```
+1. **Start server**:  
+   `npm run dev`
+
+2. **Visit Swagger:**  
+   Open [http://localhost:5000/api-docs](http://localhost:5000/api-docs)
+
+3. **Demo flow:**  
+   - Create **Manager**
+   - Create **Module**
+   - Create **Cohort** & **Class**
+   - Create **Facilitator**
+   - Create **Allocation** (links all)
+   - Show data with **GET /api/allocations**
 
 ---
 
-## ✍️ Author
+## Testing
+Planned with **Jest & Supertest**.
 
-Nubuhoro Divine
+---

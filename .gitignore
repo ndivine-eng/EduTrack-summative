@@ -1,0 +1,44 @@
+# Node modules
+node_modules/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# dotenv environment files
+.env
+.env.local
+.env.*.local
+
+# Sequelize auto-generated files
+/migrations/*.js.map
+/models/*.js.map
+
+# OS / Editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+
+# Build and coverage
+dist/
+build/
+coverage/
+
+# Optional:
+# If you use Redis dump file
+dump.rdb
+
+# Ignore frontend build if using React/Vue/Angular inside frontend/
+frontend/node_modules/
+frontend/dist/
