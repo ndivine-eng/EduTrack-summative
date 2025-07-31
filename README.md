@@ -48,14 +48,14 @@ node server.js
 ```
 
 Visit API root:  
-👉 [http://localhost:5000](http://localhost:5000)  
+ [http://localhost:5000](http://localhost:5000)  
 
 Swagger Docs:  
-👉 [http://localhost:5000/api-docs](http://localhost:5000/api-docs)
+ [http://localhost:5000/api-docs](http://localhost:5000/api-docs)
 
 ---
 
-## 📂 Project Structure
+##  Project Structure
 
 ```
 EDUTRACK-BACKEND/
@@ -203,7 +203,7 @@ For relationships:
 ##  Module 3 - Deployed Project
 
 You can view the live version of Module 3 here:  
-👉 [Student Reflection - Module 3](https://ndivine-eng.github.io/Student-reflection/)
+ [Student Reflection - Module 3](https://ndivine-eng.github.io/Student-reflection/)
 
 ## Testing
 Planned with **Jest & Supertest**.
