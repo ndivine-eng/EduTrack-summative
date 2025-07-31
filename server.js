@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 const db = require('./models');
-const { swaggerUi, swaggerSpec } = require('./swagger'); // <- Add this line
+const { swaggerUi, swaggerSpec } = require('./swagger');
 
 // Routes
 const facilitatorRoutes = require('./routes/facilitatorRoutes');
@@ -15,9 +15,21 @@ const classRoutes = require('./routes/classRoutes');
 const modeRoutes = require('./routes/modeRoutes');
 const allocationRoutes = require('./routes/allocationRoutes');
 
+// ADD THIS:
+const activityTrackerRoutes = require('./routes/activityTrackerRoutes');
+
 const PORT = process.env.PORT || 5000;
 
 app.use(express.json());
+const { addNotificationToQueue } = require('./queues/notificationQueue');
+
+app.get('/test-notification', async (req, res) => {
+  await addNotificationToQueue({
+    type: 'manual-test',
+    message: 'This is a Redis queue test'
+  });
+  res.send('Notification added to queue!');
+});
 
 // Swagger docs route
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
@@ -38,7 +50,9 @@ app.use('/api/classes', classRoutes);
 app.use('/api/modes', modeRoutes);
 app.use('/api/allocations', allocationRoutes);
 
-// Sync DB and start server
+// ADD THIS LINE to enable activity log routes
+app.use('/api/activity-logs', activityTrackerRoutes);
+
 db.sequelize.sync({ }).then(() => {
   app.listen(PORT, () => {
     console.log(`🚀 Server running on http://localhost:${PORT}`);

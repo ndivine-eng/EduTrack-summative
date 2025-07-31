@@ -1,55 +1,32 @@
-'use strict';
-const { Model } = require('sequelize');
-
 module.exports = (sequelize, DataTypes) => {
-  class Allocation extends Model {
-    static associate(models) {
-      Allocation.belongsTo(models.Module, {
-        foreignKey: 'moduleId',
-        as: 'module'
-      });
-
-      Allocation.belongsTo(models.Class, {
-        foreignKey: 'classId',
-        as: 'class'
-      });
-
-      Allocation.belongsTo(models.Facilitator, {
-        foreignKey: 'facilitatorId',
-        as: 'facilitator'
-      });
-
-      Allocation.belongsTo(models.Mode, {
-        foreignKey: 'modeId',
-        as: 'mode'
-      });
-
-      Allocation.hasOne(models.ActivityTracker, {
-        foreignKey: 'allocationId',
-        as: 'activityTracker'
-      });
-    }
-  }
-
-  Allocation.init({
+  const Allocation = sequelize.define('Allocation', {
+    id: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      primaryKey: true
+    },
     moduleId: {
       type: DataTypes.UUID,
-      allowNull: false
+      allowNull: false,
+      field: 'module_id'
     },
     classId: {
-      type: DataTypes.STRING,
-      allowNull: false
+      type: DataTypes.UUID,
+      allowNull: false,
+      field: 'class_id'
     },
     facilitatorId: {
       type: DataTypes.UUID,
-      allowNull: false
-    },
-    trimester: {
-      type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      field: 'facilitator_id'
     },
     modeId: {
       type: DataTypes.INTEGER,
+      allowNull: false,
+      field: 'mode_id'
+    },
+    trimester: {
+      type: DataTypes.STRING,
       allowNull: false
     },
     year: {
@@ -57,10 +34,32 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     }
   }, {
-    sequelize,
-    modelName: 'Allocation',
-    tableName: 'Allocations'
+    tableName: 'Allocations',
+    timestamps: true
   });
+
+  // Associations
+  Allocation.associate = (models) => {
+    Allocation.belongsTo(models.Module, {
+      foreignKey: 'moduleId',
+      as: 'module'
+    });
+
+    Allocation.belongsTo(models.Class, {
+      foreignKey: 'classId',
+      as: 'class'
+    });
+
+    Allocation.belongsTo(models.Facilitator, {
+      foreignKey: 'facilitatorId',
+      as: 'facilitator'
+    });
+
+    Allocation.belongsTo(models.Mode, {
+      foreignKey: 'modeId',
+      as: 'mode'
+    });
+  };
 
   return Allocation;
 };

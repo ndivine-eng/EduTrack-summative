@@ -1,21 +1,31 @@
-'use strict';
-const { Model } = require('sequelize');
+// models/Class.js
 
 module.exports = (sequelize, DataTypes) => {
-  class Class extends Model {}
-
-  Class.init({
+  const Class = sequelize.define('Class', {
     id: {
-      type: DataTypes.STRING,
-      primaryKey: true
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      primaryKey: true,
     },
-    name: DataTypes.STRING,
-    startDate: DataTypes.DATE,
-    graduationDate: DataTypes.DATE
-  }, {
-    sequelize,
-    modelName: 'Class',
-    tableName: 'Classes'
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    level: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    year: {
+      type: DataTypes.STRING,
+    },
+    cohortId: {
+      type: DataTypes.UUID,
+      allowNull: true,
+      references: {
+        model: 'Cohorts',
+        key: 'id',
+      },
+    },
   });
 
   return Class;

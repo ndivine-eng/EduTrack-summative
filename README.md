@@ -200,6 +200,11 @@ For relationships:
 
 ---
 
+##  Module 3 - Deployed Project
+
+You can view the live version of Module 3 here:  
+👉 [Student Reflection - Module 3](https://ndivine-eng.github.io/Student-reflection/)
+
 ## Testing
 Planned with **Jest & Supertest**.
 

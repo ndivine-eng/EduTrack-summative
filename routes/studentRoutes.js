@@ -24,13 +24,16 @@ const studentController = require('../controllers/studentController');
  *             required:
  *               - name
  *               - email
- *               - studentId
+ *               - classId
+ *               - cohortId
  *             properties:
  *               name:
  *                 type: string
  *               email:
  *                 type: string
- *               studentId:
+ *               classId:
+ *                 type: string
+ *               cohortId:
  *                 type: string
  *     responses:
  *       201:
@@ -49,22 +52,82 @@ router.post('/', studentController.createStudent);
  *     responses:
  *       200:
  *         description: A list of students
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 type: object
- *                 properties:
- *                   _id:
- *                     type: string
- *                   name:
- *                     type: string
- *                   email:
- *                     type: string
- *                   studentId:
- *                     type: string
  */
 router.get('/', studentController.getAllStudents);
+
+/**
+ * @swagger
+ * /api/students/{id}:
+ *   get:
+ *     summary: Get a student by ID
+ *     tags: [Students]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Student data
+ *       404:
+ *         description: Student not found
+ */
+router.get('/:id', studentController.getStudentById);
+
+/**
+ * @swagger
+ * /api/students/{id}:
+ *   put:
+ *     summary: Update a student by ID
+ *     tags: [Students]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *               classId:
+ *                 type: string
+ *               cohortId:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Student updated
+ *       404:
+ *         description: Student not found
+ */
+router.put('/:id', studentController.updateStudent);
+
+/**
+ * @swagger
+ * /api/students/{id}:
+ *   delete:
+ *     summary: Delete a student by ID
+ *     tags: [Students]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Student deleted
+ *       404:
+ *         description: Student not found
+ */
+router.delete('/:id', studentController.deleteStudent);
 
 module.exports = router;

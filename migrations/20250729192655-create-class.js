@@ -1,34 +1,47 @@
 'use strict';
-/** @type {import('sequelize-cli').Migration} */
+
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Classes', {
       id: {
-        allowNull: false,
-        autoIncrement: true,
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        allowNull: false,
       },
       name: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false,
       },
-      startDate: {
-        type: Sequelize.DATE
+      level: {
+        type: Sequelize.STRING,
+        allowNull: false,
       },
-      graduationDate: {
-        type: Sequelize.DATE
+      year: {
+        type: Sequelize.STRING,
+      },
+      cohortId: {
+        type: Sequelize.UUID,
+        allowNull: true,
+        references: {
+          model: 'Cohorts',
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL',
       },
       createdAt: {
+        type: Sequelize.DATE,
         allowNull: false,
-        type: Sequelize.DATE
       },
       updatedAt: {
+        type: Sequelize.DATE,
         allowNull: false,
-        type: Sequelize.DATE
-      }
+      },
     });
   },
+
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('Classes');
-  }
+  },
 };
