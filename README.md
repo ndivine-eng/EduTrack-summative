@@ -205,6 +205,14 @@ For relationships:
 You can view the live version of Module 3 here:  
 👉 [Student Reflection - Module 3](https://ndivine-eng.github.io/Student-reflection/)
 
+## Project Demo Videos
+
+### Part 1: Manager Registration & Login (5 min)
+[▶️ Watch here](https://www.loom.com/share/eec16ac6c4c0493b8aa4f82f3962a064)
+
+### Part 2: Activity Tracker and Finalization (3 min)
+[▶️ Watch here](https://www.loom.com/share/8f184ea98b844f588cfa73ab960bebdd?sid=a3695e0a-5eeb-487b-9898-483d265d7a1f)
+
 ## Testing
 Planned with **Jest & Supertest**.
 

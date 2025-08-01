@@ -14,9 +14,8 @@ const cohortRoutes = require('./routes/cohortRoutes');
 const classRoutes = require('./routes/classRoutes');
 const modeRoutes = require('./routes/modeRoutes');
 const allocationRoutes = require('./routes/allocationRoutes');
-
-// ADD THIS:
 const activityTrackerRoutes = require('./routes/activityTrackerRoutes');
+const managerAuthRoutes = require('./routes/managerAuthRoutes');
 
 const PORT = process.env.PORT || 5000;
 
@@ -49,9 +48,9 @@ app.use('/api/cohorts', cohortRoutes);
 app.use('/api/classes', classRoutes);
 app.use('/api/modes', modeRoutes);
 app.use('/api/allocations', allocationRoutes);
-
-// ADD THIS LINE to enable activity log routes
 app.use('/api/activity-logs', activityTrackerRoutes);
+app.use('/api/manager-auth', managerAuthRoutes);
+
 
 db.sequelize.sync({ }).then(() => {
   app.listen(PORT, () => {

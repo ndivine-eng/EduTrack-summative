@@ -1,4 +1,5 @@
 'use strict';
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -9,38 +10,64 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      allocationId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'Allocations',
+          key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
+      },
       attendance: {
-        type: Sequelize.JSON
+        type: Sequelize.ARRAY(Sequelize.BOOLEAN),
+        defaultValue: []
       },
       formativeOneGrading: {
-        type: Sequelize.STRING
+        type: Sequelize.ENUM('Done', 'Pending', 'Not Started'),
+        defaultValue: 'Not Started'
       },
       formativeTwoGrading: {
-        type: Sequelize.STRING
+        type: Sequelize.ENUM('Done', 'Pending', 'Not Started'),
+        defaultValue: 'Not Started'
       },
-      SummativeGrading: {
-        type: Sequelize.STRING
+      summativeGrading: { // 🟢 lowercase fix
+        type: Sequelize.ENUM('Done', 'Pending', 'Not Started'),
+        defaultValue: 'Not Started'
       },
       courseModeration: {
-        type: Sequelize.STRING
+        type: Sequelize.ENUM('Done', 'Pending', 'Not Started'),
+        defaultValue: 'Not Started'
       },
       intranetSync: {
-        type: Sequelize.STRING
+        type: Sequelize.ENUM('Done', 'Pending', 'Not Started'),
+        defaultValue: 'Not Started'
       },
       gradeBookStatus: {
-        type: Sequelize.STRING
+        type: Sequelize.ENUM('Done', 'Pending', 'Not Started'),
+        defaultValue: 'Not Started'
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       }
     });
   },
+
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('ActivityTrackers');
+    await queryInterface.sequelize.query('DROP TYPE IF EXISTS "enum_ActivityTrackers_formativeOneGrading";');
+    await queryInterface.sequelize.query('DROP TYPE IF EXISTS "enum_ActivityTrackers_formativeTwoGrading";');
+    await queryInterface.sequelize.query('DROP TYPE IF EXISTS "enum_ActivityTrackers_summativeGrading";');
+    await queryInterface.sequelize.query('DROP TYPE IF EXISTS "enum_ActivityTrackers_courseModeration";');
+    await queryInterface.sequelize.query('DROP TYPE IF EXISTS "enum_ActivityTrackers_intranetSync";');
+    await queryInterface.sequelize.query('DROP TYPE IF EXISTS "enum_ActivityTrackers_gradeBookStatus";');
   }
 };
