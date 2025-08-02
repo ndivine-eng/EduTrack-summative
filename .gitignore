@@ -35,10 +35,6 @@ dist/
 build/
 coverage/
 
-# Optional:
-# If you use Redis dump file
+# Temporary files
 dump.rdb
 
-# Ignore frontend build if using React/Vue/Angular inside frontend/
-frontend/node_modules/
-frontend/dist/

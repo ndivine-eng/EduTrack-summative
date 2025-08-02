@@ -54,7 +54,7 @@ app.use('/api/manager-auth', managerAuthRoutes);
 
 db.sequelize.sync({ }).then(() => {
   app.listen(PORT, () => {
-    console.log(`🚀 Server running on http://localhost:${PORT}`);
-    console.log(`📘 Swagger docs available at http://localhost:${PORT}/api-docs`);
+    console.log(` Server running on http://localhost:${PORT}`);
+    console.log(` Swagger docs available at http://localhost:${PORT}/api-docs`);
   });
 });

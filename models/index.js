@@ -14,16 +14,16 @@ const sequelize = new Sequelize(
 );
 
 sequelize.authenticate()
-  .then(() => console.log('✅ Connected to MySQL'))
-  .catch((err) => console.error('❌ DB Connection failed:', err.message));
+  .then(() => console.log(' Connected to MySQL'))
+  .catch((err) => console.error(' DB Connection failed:', err.message));
 
 const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-// ---------------------------
+
 // Load models
-// ---------------------------
+
 db.Student = require('./Student.js')(sequelize, DataTypes);
 db.Class = require('./Class.js')(sequelize, DataTypes);
 db.Cohort = require('./Cohort.js')(sequelize, DataTypes);
@@ -35,9 +35,9 @@ db.FacilitatorModule = require('./FacilitatorModule.js')(sequelize, DataTypes);
 db.Allocation = require('./Allocation.js')(sequelize, DataTypes);
 db.ActivityTracker = require('./ActivityTracker.js')(sequelize, DataTypes);
 
-// ---------------------------
+
 // Associations
-// ---------------------------
+
 
 // Many-to-Many: Facilitator <-> Module
 db.Facilitator.belongsToMany(db.Module, {
@@ -49,9 +49,8 @@ db.Module.belongsToMany(db.Facilitator, {
   foreignKey: 'moduleId',
 });
 
-// ---------------------------
 // Student / Class / Cohort
-// ---------------------------
+
 
 // Student -> Cohort
 db.Student.belongsTo(db.Cohort, { foreignKey: 'cohortId' });
@@ -67,9 +66,9 @@ db.Cohort.hasMany(db.Class, { foreignKey: 'cohortId' });
 
 
 
-// ---------------------------
+
 // Allocation relationships
-// ---------------------------
+
 db.Allocation.belongsTo(db.Module, { foreignKey: 'moduleId' });
 db.Allocation.belongsTo(db.Class, { foreignKey: 'classId' });
 db.Allocation.belongsTo(db.Facilitator, { foreignKey: 'facilitatorId' });
@@ -80,9 +79,9 @@ db.Class.hasMany(db.Allocation, { foreignKey: 'classId' });
 db.Facilitator.hasMany(db.Allocation, { foreignKey: 'facilitatorId' });
 db.Mode.hasMany(db.Allocation, { foreignKey: 'modeId' });
 
-// ---------------------------
+
 // ActivityTracker relationship
-// ---------------------------
+
 db.Allocation.hasOne(db.ActivityTracker, { foreignKey: 'allocationId' });
 db.ActivityTracker.belongsTo(db.Allocation, { foreignKey: 'allocationId' });
 

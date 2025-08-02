@@ -14,19 +14,19 @@ exports.authenticate = (req, res, next) => {
   });
 };
 
-// ✅ Facilitator-only access
+//  Facilitator-only access
 exports.facilitator = (req, res, next) => {
   if (req.user && req.user.role === 'facilitator') return next();
   return res.status(403).json({ error: 'Access denied. Facilitator only.' });
 };
 
-// ✅ Manager-only access
+//  Manager-only access
 exports.manager = (req, res, next) => {
   if (req.user && req.user.role === 'manager') return next();
   return res.status(403).json({ error: 'Access denied. Manager only.' });
 };
 
-// ✅ Manager OR Facilitator access
+//  Manager OR Facilitator access
 exports.managerOrFacilitator = (req, res, next) => {
   if (req.user && (req.user.role === 'manager' || req.user.role === 'facilitator')) {
     return next();
@@ -35,7 +35,7 @@ exports.managerOrFacilitator = (req, res, next) => {
 };
 
 
-// ✅ Optional: allow either manager or the correct facilitator (for updates)
+//  Optional: allow either manager or the correct facilitator (for updates)
 exports.facilitatorOrOwner = (getOwnerIdFn) => {
   return async (req, res, next) => {
     const user = req.user;
